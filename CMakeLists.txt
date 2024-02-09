@@ -59,7 +59,7 @@ if (CMAKE_BUILD_TYPE MATCHES "Debug")
   endif()
   if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
-  endif
+  endif()
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTQMESH_USE_EXPRTK")
 endif()
 
