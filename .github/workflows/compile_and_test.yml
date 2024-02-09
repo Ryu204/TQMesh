@@ -17,16 +17,14 @@ defaults:
 jobs:
   build_and_test:
     name: Build & test TQMesh on ${{ matrix.os }} with ${{ matrix.compiler }}.
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.name }}
     strategy:
       matrix: 
-        system: 
         - {name: ubuntu - gcc,    os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc}
         - {name: ubuntu - clang,  os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang}
         - {name: macos - gcc,     os: macos-latest,     flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc}
         - {name: macos - clang,   os: macos-latest,     flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang}
         - {name: windows - msvc,  os: windows-latest,   flags: -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl}
-        compiler: [ g++, clang++, cl ]
 
     steps:
     - name: Checkout Repository
