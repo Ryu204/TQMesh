@@ -47,6 +47,6 @@ jobs:
         cmake --build bin -j2
         cmake --install bin
 
-    - name: Run all of tqmeshs tests
+    - name: Run all of TQMesh tests
       run: ./scripts/test_tqmesh.sh
 
