@@ -20,13 +20,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix: 
-        system: 
-        - {name: ubuntu - gcc,    os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc}
-        - {name: ubuntu - clang,  os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang}
-        - {name: macos - gcc,     os: macos-latest,     flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc}
-        - {name: macos - clang,   os: macos-latest,     flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang}
-        - {name: windows - msvc,  os: windows-latest,   flags: -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl}
-        compiler: [ g++, clang++, cl ]
+        platform:
+          - {name: ubuntu - gcc,    os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc}
+          - {name: ubuntu - clang,  os: ubuntu-latest,    flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang}
+          - {name: macos - gcc,     os: macos-latest,     flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc}
+          - {name: macos - clang,   os: macos-latest,     flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang}
+          - {name: windows - msvc,  os: windows-latest,   flags: -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl}
+          - {name: windows - gcc,   os: windows-latest,   flags: -DCMAKE_CXX_COMPILER=g++ -DCMAKE_C_COMPILER=gcc}
+          - {name: windows - clang, os: windows-latest,   flags: -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang}
 
     steps:
     - name: Checkout Repository
@@ -36,6 +37,10 @@ jobs:
       if: contains(matrix.name, 'msvc')
       uses: microsoft/setup-msbuild@v1.0.2
 
+    - name: Add ninja to PATH
+      if: contains(matrix.platform.name, 'windows') && !contains(matrix.platform.name, 'msvc')
+      uses: seanmiddleditch/gha-setup-ninja@master
+
     - name: Compile a release build of TQMesh
       run: |
         mkdir build
@@ -43,6 +48,6 @@ jobs:
         cmake --build build -j2
         make install -j2
 
-    - name: Run all of tqmeshs tests.
+    - name: Run all of tqmeshs tests
       run: ./scripts/test_tqmesh.sh
 
