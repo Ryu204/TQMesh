@@ -16,8 +16,8 @@ defaults:
 
 jobs:
   build_and_test:
-    name: Build & test TQMesh on ${{ matrix.os }} with ${{ matrix.compiler }}.
-    runs-on: ${{ matrix.platform.name }}
+    name: Build & test TQMesh on ${{ matrix.platform.name }}.
+    runs-on: ${{ matrix.platform.os }}
     strategy:
       matrix: 
         platform:
