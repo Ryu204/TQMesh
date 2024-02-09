@@ -39,7 +39,7 @@ jobs:
       run: |
         cmake -S . -B bin ${{ matrix.platform.flags }}
         cmake --build bin -j2
-        cmake --install bin -j2
+        cmake --install bin
 
     - name: Run all of tqmeshs tests.
       run: ./scripts/test_tqmesh.sh
